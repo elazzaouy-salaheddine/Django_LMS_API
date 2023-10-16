@@ -1,0 +1,58 @@
+
+
+{% comment %} pass word : r7N_6k2N2z]c {% endcomment %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{% load i18n static %}
+    <div class="page page-center">
+      <div class="container container-tight py-4">
+        <div class="text-center mb-4">
+          <a href="." class="navbar-brand navbar-brand-autodark"><img src="./static/logo.svg" height="36" alt=""></a>
+        </div>
+        <div class="card card-md">
+          <div class="card-body">
+            <h2 class="h2 text-center mb-4">Login to your account</h2>
+
+            <form action="{{ app_path }}" method="post" autocomplete="off" id="login-form">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label class="form-label">{{ form.username.label_tag }}</label>
+                {{ form.username.errors }}
+                 {{ form.username|add_class:"form-control"  }}
+              </div>
+              <div class="mb-2">
+                <label class="form-label">
+                  Password
+                  <span class="form-label-description">
+                    
+                  </span>
+                </label>
+                <div class="input-group input-group-flat">
+                  
+                  {{ form.password.errors }}
+                   {{ form.password|add_class:"form-control"  }}
+                  <input type="hidden" name="next" value="{{ next }}">
+
+                </div>
+              </div>
+
+              <div class="form-footer">
+                <input type="submit" value="{% translate 'Log in' %}" class="btn btn-primary w-100">
+              </div>
+            </form>
+          </div>
+          
+        
+        </div>
+        <div class="text-center text-muted mt-3">
+          Don't have account yet? <a href="./sign-up.html" tabindex="-1">Sign up</a>
+          <a href="{% url 'account_user:password_reset' %}">I forgot password</a>
+        </div>
+      </div>
+    </div>
+
+
+
+

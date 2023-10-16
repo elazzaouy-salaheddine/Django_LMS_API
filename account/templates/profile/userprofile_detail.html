@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>User Profile</h1>
+    <h2>User Profile</h2>
+    <h3>Basic Information</h3>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Username:</strong> {{ user.first_name }}</p>
+    <p><strong>Username:</strong> {{ user.last_name }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p>Is Student: {{ profile.is_student }}</p>
+    <p>Is Instructor: {{ profile.is_instructor }}</p>
+    <p>Is Admin: {{ profile.is_admin }}</p>
+   <a href="{% url 'account_user:password_change' %}">change password</a>
+{% endblock %}
