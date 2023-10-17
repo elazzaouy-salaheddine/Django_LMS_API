@@ -224,25 +224,7 @@
       </header>
 
       <div class="page-wrapper">
-    <ul>
-        <li>
-            <a href="{% url 'account_user:student-registration' %}">register student</a>
-        </li>
 
-        <li>
-            <a href="{% url 'account_user:instructor-registration' %}">instructor-registration</a>
-        </li>
-
-        <li>
-            <a href="{% url 'account_user:admin-registration' %}">register admin</a>
-        </li>
-        <li>
-            <a href="{% url 'account_user:login_account' %}">login </a>
-        </li>
-        <li>
-            <a href="{% url 'account_user:userprofile-detail' user_id=user.id %}">View Profile</a>
-        </li>
-    </ul>
     {% block content %}
         
     {% endblock content %}
