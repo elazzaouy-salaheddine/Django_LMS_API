@@ -43,7 +43,7 @@ class InstructorRegistrationView(View):
             user = form.save()
             user_profile = UserProfile.objects.create(user=user, is_student=True)
             login(request, user)
-            return redirect("instructor-dashboard")
+            return redirect("instructor:instructor-dashboard")
         return render(request, self.template_name, {"form": form})
 
 

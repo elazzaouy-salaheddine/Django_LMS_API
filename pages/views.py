@@ -13,7 +13,7 @@ def home(request):
 
         role_dashboard_mapping = {
             'student': 'student-dashboard',
-            'instructor': 'instructor-dashboard',
+            'instructor': 'instructor:instructor-dashboard',
             'admin': 'admin-dashboard'
         }
 

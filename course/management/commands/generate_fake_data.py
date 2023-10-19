@@ -11,7 +11,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # Create some fake modules and lessons
-        for _ in range(10):  # Adjust the number as needed
+        for _ in range(100):  # Adjust the number as needed
             course = Course.objects.order_by('?').first()  # Get a random course
             module = Module.objects.create(
                 course=course,
@@ -27,5 +27,8 @@ class Command(BaseCommand):
                     video=fake.file_path(extension='mp4') if random.choice([True, False]) else '',
                     attachment=fake.file_path(extension='pdf') if random.choice([True, False]) else ''
                 )
+            # Print information about the created module and lesson
+            self.stdout.write(self.style.SUCCESS(f'Module: {module.module_name}'))
+
 
         self.stdout.write(self.style.SUCCESS('Fake data generated successfully.'))

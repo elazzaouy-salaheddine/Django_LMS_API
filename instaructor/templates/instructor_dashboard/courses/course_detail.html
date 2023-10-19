@@ -12,15 +12,9 @@
         <!-- Page title actions -->
         <div class="col-auto ms-auto d-print-none">
           <div class="btn-list">
-            <span class="d-none d-sm-inline"><a href="#" class="btn">Update Course</a></span>
-            <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-report">
-              <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M12 5l0 14" />
-                <path d="M5 12l14 0" />
-              </svg>Delete Course
-            </a>
+            <span class="d-none d-sm-inline"><a href="{% url 'instructor:instructor_course_update' course.pk %}" class="btn">Update Course</a></span>
+            <a href="#" class="btn btn-primary d-none d-sm-inline-block">Delete Course</a>
+            <a href="{% url 'instructor:module-create' course.pk %}" class="btn btn-primary d-none d-sm-inline-block">Create module</a>
             <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#modal-report" aria-label="Create new report">
               <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -33,36 +27,69 @@
         </div>
       </div>
     </div>
+    <div class="container mt-4">
+    <div class="card">
+      <div class="card-status-bottom bg-success"></div>
+      <div class="card-body">
+ 
+        <p class="text-muted">{{ course.excerpt|safe}}</p>
+      </div>
+      <div class="card-footer">
+  
+        <div class="row">
+  
+            <div class="col-3">
+              <div class="card-title">{{ course.instructor }}</div>
+              <div class="card-subtitle">Instructor</div>
+            </div>
+  
+            <div class="col-3">
+              <div class="card-title">{{ course.difficulty_level}}</div>
+              <div class="card-subtitle">Difficulty Level</div>
+            </div>
+  
+            <div class="col-3">
+              <div class="card-title">{{ course.created_at}}</div>
+              <div class="card-subtitle">created at</div>
+            </div>
+          
+            <div class="col-3">
+              <div class="card-title">{{ course.updated_at}}</div>
+              <div class="card-subtitle">updated at</div>
+            </div>
+  
+        </div>
+      </div>
+  
+      </div>
+    </div>
   </div>
 
   <!-- Page body -->
   <div class="page-body">
     <div class="container-xl">
-      <div class="row row-deck row-cards">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body">
-              <!-- Course Details -->
-              <h1>{{ course.title }}</h1>
-              <p>Instructor: {{ course.instructor }}</p>
-              <p>Language: {{ course.get_language_display }}</p>
-              <p>Difficulty Level: {{ course.get_difficulty_level_display }}</p>
-              <!-- Add other course details as needed -->
-            </div>
-          </div>
-        </div>
-        <div class="col-8">
-          <div class="card">
+      <div class="row">
+        <div class="col-6">
+          <div class="row">
             {% for module in course.modules.all %}
-              <div class="px-2">
-                <h3 class="p-2 bg-purple-lt">{{ module.module_name }}</h3>
-                <p class="px-2">{{ module.description|safe }}</p>
-              </div>
-              <div class="p-2">
-                {% for lesson in module.lessons.all %}
+
+            
+              <div class="card my-2">
+                <div class="card-body">
+                  <h3 class="card-title"><a href="{% url 'instructor:module-detail' course.pk module.id %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right-lines" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-3v-6h3z"></path>
+                      <path d="M3 9v6"></path>
+                      <path d="M6 9v6"></path>
+                    </svg>
+                    {{ module.module_name }}
+                  </a></h3>
+                  <p class="text-muted">{{module.description|safe}} </p>
+                  {% for lesson in module.lessons.all %}
                   <div>
                     <!-- Lesson icon from tabler.io -->
-
+              
                     <h4 class="my-2  text-purple bg-transparent">
                       <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-right-lines" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -72,25 +99,24 @@
                       </svg>
                       {{ lesson.lesson_name }}
                     </h4>
-                    <p>{{ lesson.content }}</p>
-                    {% if lesson.attachment %}
-                     atached file : <a href="{{ lesson.attachment.url }}" target="_blank">{{ lesson.attachment }}</a>
-                    {% endif %}
-                    
-                    <!-- Display video if it exists -->
-                    {% if lesson.video %}
-                      <video controls class="card w-100 my-2">
-                        <source src="{{ lesson.video.url }}" type="video/mp4" />Your browser does not support the video tag.
-                      </video>
-                    {% endif %}
+
                   </div>
                 {% endfor %}
+                </div>
+                <!-- Card footer -->
+                <div class="card-footer">
+                  <div class="d-flex">
+                    <a class="btn btn-sm btn-primary mx-1" href="{% url 'instructor:module-update' course.pk module.id %}">Update Module</a>
+                    <a class="btn btn-sm btn-danger mx-1" href="{% url 'instructor:module-delete' course.pk module.id %}">Delete MOdule</a>
+                  </div>
+                </div>
               </div>
+
             {% endfor %}
           </div>
         </div>
 
-        <div class="col-4">
+        <div class="col-6">
           <div class="card p-2">
             <img src="{{ course.image_thumbnail.url }}" class="mb-2 rounded-3 border" />
             <p>what_youll_learn: {{ course.what_youll_learn|safe }}</p>
@@ -98,10 +124,8 @@
             <p>detailed_description: {{ course.detailed_description|safe }}</p>
           </div>
         </div>
+        
       </div>
     </div>
   </div>
-
-
-
 {% endblock %}
