@@ -1,0 +1,21 @@
+{% extends "instructor/base_instructor.html" %}
+{% block content %}
+
+
+
+<h1>Quiz List</h1>
+    
+<ul>
+    {% for quiz in quizzes %}
+        <li>
+            <a href="">{{ quiz.title }}</a>
+            <p>Related Course: {{ quiz.module.course.title }}</p>
+            <p>Related Module: {{ quiz.module.module_name }}</p>
+        </li>
+    {% empty %}
+        <li>No quizzes available.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'instructor:quiz-create' %}">Create New Quiz</a>
+{% endblock %}

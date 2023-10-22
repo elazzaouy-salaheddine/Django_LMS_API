@@ -7,6 +7,13 @@ from .module_views import (
     ModuleUpdateView,
     ModuleDeleteView,
 )
+from .lesson_views import(
+    LessonDetailView, LessonDetailView,LessonCreateView, LessonDeleteView,LessonUpdateView,
+)
+from .quizzes_views import(
+    QuizListView, QuizCreateView, QuizDeleteView, QuizUpdateView,QuizDetailView,
+)
+    
 
 app_name = "instructor"
 urlpatterns = [
@@ -35,4 +42,14 @@ urlpatterns = [
 
     # Delete a module
     path('courses/<int:course_pk>/modules/<int:pk>/delete/', ModuleDeleteView.as_view(), name='module-delete'),
+    # URL to display an individual lesson
+    path('courses/<int:course_pk>/modules/<int:module_pk>/lessons/<int:pk>/', LessonDetailView.as_view(), name='lesson-detail'),
+    path('courses/<int:course_pk>/modules/<int:module_pk>/lessons/<int:pk>/delete/', LessonDeleteView.as_view(), name='lesson-delete'),
+    path('courses/<int:course_pk>/modules/<int:module_pk>/lessons/<int:pk>/update/', LessonUpdateView.as_view(), name='lesson-update'),
+    path('courses/<int:course_pk>/modules/<int:module_pk>/lessons/create/', LessonCreateView.as_view(), name='lesson-create'),
+
+    path('courses/<int:course_pk>/modules/<int:module_pk>/quizzes/create/', QuizCreateView.as_view(), name='quiz-create'),
+    path('courses/<int:course_pk>/modules/<int:module_pk>/quizzes/<int:quiz_pk>/', QuizDetailView.as_view(), name='quiz-detail'),
+
+
 ]

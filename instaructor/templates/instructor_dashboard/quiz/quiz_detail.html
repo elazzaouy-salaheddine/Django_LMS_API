@@ -1,0 +1,24 @@
+{% extends "instructor/base_instructor.html" %}
+
+{% block content %}
+<h2>Quiz Details</h2>
+  
+<h3>Title:</h3>
+<p>{{ quiz.title }}</p>
+
+<h3>Description:</h3>
+<p>{{ quiz.description }}</p>
+
+<h3>Number of Questions:</h3>
+<p>{{ quiz.number_of_questions }}</p>
+
+<h3>Time Limit (Minutes):</h3>
+<p>{{ quiz.time_limit_minutes }}</p>
+
+<h3>Is Published:</h3>
+<p>{{ quiz.is_published }}</p>
+
+
+
+
+{% endblock %}

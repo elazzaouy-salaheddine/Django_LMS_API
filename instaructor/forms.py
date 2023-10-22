@@ -30,10 +30,7 @@ class CourseForm(forms.ModelForm):
         widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter the price'}),
         help_text="Enter the price of the course"
     )
-    is_free = forms.BooleanField(
-        widget=forms.CheckboxInput(attrs={'class': 'custom-checkbox'}),
-        help_text="Check if the course is free"
-    )
+
     image_thumbnail = forms.ImageField(
         widget=forms.ClearableFileInput(attrs={'class': 'form-control'}),
         help_text="Upload an image thumbnail for the course"

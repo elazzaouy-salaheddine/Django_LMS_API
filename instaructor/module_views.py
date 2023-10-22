@@ -7,7 +7,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from course.models import Module, Course
+from course.models import Module, Course, Quiz
 from .module_form import ModuleForm
 
 class ModuleListView(ListView):
@@ -19,7 +19,13 @@ class ModuleDetailView(DetailView):
     model = Module
     template_name = 'instructor_dashboard/module/module_detail.html'
     context_object_name = 'module'
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Retrieve related quizzes for the module
+        context['quizzes'] = Quiz.objects.filter(module=self.object)
+        
+        return context
 class ModuleMixin:
     model = Module
     form_class = ModuleForm

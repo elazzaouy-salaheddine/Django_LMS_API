@@ -43,12 +43,15 @@ INSTALLED_APPS = [
     "rest_framework",
     "widget_tweaks",
     "ckeditor",
+    "django_extensions",
+    "drf_yasg",
 
     "account",
     "pages",
     "student",
     "instaructor",
     "course",
+    "api",
 
 ]
 
@@ -173,3 +176,36 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        },
+    },
+    'USE_SESSION_AUTH': False,  # Use Token-based authentication instead of session-based
+    'api_version': '1.0',
+    'api_path': '/',
+    'enabled_methods': ['get', 'post', 'put', 'patch', 'delete'],
+    'exclude_namespaces': [],  # List of namespaces to exclude
+    'api_key': 'Authorization',
+    'api_key_prefix': 'Bearer',
+    'deep_linking': True,
+    'info': {
+        'description': 'Your API description',
+        'title': 'Your API',
+        'version': '1.0',
+    },
+}
+
+
+""" REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+} """
