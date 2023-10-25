@@ -3,49 +3,41 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from faker import Faker
 from course.models import Course  # Replace 'yourapp' with the actual app name where your models are defined
+import random
+from django.contrib.auth.models import User  # Import the User model
+from django.core.files import File
+from django.db.models.fields.files import ImageField, FileField
+from django.core.management.base import BaseCommand
+from django.db.models import FileField
 
-fake = Faker()
+from course.models import Course , upload_to_course_video # Import your Course model
 
 class Command(BaseCommand):
-    help = 'Generate fake course data'
+    help = 'Generate fake data for the Course model'
 
-    def handle(self, *args, **options):
-        # Retrieve a list of existing users who can be instructors
-        instructors = User.objects.filter(is_superuser=False)
+    def handle(self, *args, **kwargs):
+        fake = Faker()
 
-        for _ in range(10):  # Generate 10 fake courses as an example, you can adjust the number
-            title = fake.catch_phrase()
-            excerpt = fake.paragraph()
-            instructor = random.choice(instructors)
-            language = random.choice([choice[0] for choice in Course.LANGUAGE_CHOICES])
-            is_certified = fake.boolean()
-            is_free = fake.boolean()
-            price = round(random.uniform(10, 1000), 2)
-            video_intro = 'path_to_video.mp4'  # Replace with a path to your video file
-            image_thumbnail = 'path_to_thumbnail.jpg'  # Replace with a path to your image file
-            what_youll_learn = fake.text()
-            requirements = fake.text()
-            detailed_description = fake.text()
-            difficulty_level = random.choice([choice[0] for choice in Course.DIFFICULTY_LEVEL_CHOICES])
-            is_public = fake.boolean()
-            targeted_audience = fake.text()
+        # Create a list of language choices and difficulty level choices
+        LANGUAGE_CHOICES = ['en', 'es', 'fr', 'de', 'it']
+        DIFFICULTY_LEVEL_CHOICES = ['beginner', 'intermediate', 'advanced']
 
-            Course.objects.create(
-                title=title,
-                excerpt=excerpt,
-                instructor=instructor,
-                language=language,
-                is_certified=is_certified,
-                is_free=is_free,
-                price=price,
-                video_intro=video_intro,
-                image_thumbnail=image_thumbnail,
-                what_youll_learn=what_youll_learn,
-                requirements=requirements,
-                detailed_description=detailed_description,
-                difficulty_level=difficulty_level,
-                is_public=is_public,
-                targeted_audience=targeted_audience
+        for _ in range(10):  # Create 10 fake Course instances
+            course = Course(
+                title=fake.sentence(nb_words=4),
+                excerpt=fake.text(max_nb_chars=200),
+                instructor=User.objects.order_by('?').first(),  # Random instructor
+                language=random.choice(LANGUAGE_CHOICES),
+                is_certified=fake.boolean(),
+                image_thumbnail=f'https://picsum.photos/400/300/?random={fake.random_int(min=1, max=1000)}',                price=fake.random_int(min=10, max=100),
+                what_youll_learn=fake.text(max_nb_chars=400),
+                requirements=fake.text(max_nb_chars=200),
+                detailed_description=fake.text(max_nb_chars=1000),
+                difficulty_level=random.choice(DIFFICULTY_LEVEL_CHOICES),
+                is_public=fake.boolean(),
+                is_published=fake.boolean(),
+                video_intro=FileField(upload_to=upload_to_course_video).attr_class(None, FileField(upload_to=upload_to_course_video), None),
             )
+            course.save()
 
-        self.stdout.write(self.style.SUCCESS('Fake courses have been generated.'))
+        self.stdout.write(self.style.SUCCESS('Successfully generated fake data for the Course model.'))
